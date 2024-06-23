@@ -1,6 +1,6 @@
-import { HomePage } from './cmps/home-page.jsx'
-import { AboutUs } from './cmps/about-us.jsx'
-import { BookIndex } from './cmps/book-index.jsx'
+import { HomePage } from './pages/HomePage.jsx'
+import { AboutUs } from './pages/AboutUs.jsx'
+import { BookIndex } from './pages/BookIndex.jsx'
 
 const { useState } = React
 

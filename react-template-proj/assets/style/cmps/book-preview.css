@@ -1,0 +1,11 @@
+.book-preview {
+    display: grid;
+    gap: 1em;
+    justify-content: center;
+    justify-items: center;
+}
+
+.book-preview>.book-title,
+.book-description {
+    margin: 0;
+}

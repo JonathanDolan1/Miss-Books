@@ -23,9 +23,14 @@
   gap: 15px;
 }
 
-@media(max-width: 720px) {
+/* @media(max-width: 720px) {
   .app-header {
     color: var(--clr2bg);
   }
-}
+} */
 
+.app-header a.active{
+  color: var(--clr2bg);
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -1,5 +1,9 @@
 
 
+export  const demoBooksService = {
+  getDemoBooks
+}
+
 const books = [
   {
     "id": "OXeMG8wNskc",
@@ -442,3 +446,7 @@ const books = [
     }
   }
 ]
+
+function getDemoBooks(){
+  return books
+}

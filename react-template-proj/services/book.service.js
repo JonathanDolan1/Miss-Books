@@ -1,5 +1,6 @@
 import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
+import { demoBooksService } from './demo-books.service.js'
 
 const BOOK_KEY = 'bookDB'
 var gFilterBy = { title: '', minPrice: 0, maxPrice: 1000 }
@@ -92,10 +93,7 @@ function getNextBookId(bookId) {
 function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
-        books = []
-        books.push(_createBook(`World's Atlas`, 'Maps of the world', './assets/img/1.jpg', { amount: 120, currencyCode: 'EUR', isOnSale: false }))
-        books.push(_createBook('Harry Potter', 'A book about wizards', './assets/img/2.jpg', { amount: 150, currencyCode: 'USD', isOnSale: false }))
-        books.push(_createBook(`Pretzel's Wisdom`, 'A book about the wisdom of the street', './assets/img/3.jpg', { amount: 300, currencyCode: 'ILS', isOnSale: true }))
+        books = demoBooksService.getDemoBooks()
         utilService.saveToStorage(BOOK_KEY, books)
     }
 }

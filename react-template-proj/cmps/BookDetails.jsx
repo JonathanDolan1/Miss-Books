@@ -1,16 +1,26 @@
 import { bookService } from "../services/book.service.js"
 
-const { useEffect, useState } = React
+const { useEffect, useState, useRef } = React
 
-export function BookDetails({ bookId, onBack }) {
+const { useParams, Link } = ReactRouterDOM
+
+export function BookDetails() {
 
     const [book, setBook] = useState(null)
+    const { bookId } = useParams()
+
+    const nextBookId = useRef()
 
     useEffect(() => {
         bookService.get(bookId)
             .then(book => setBook(book))
             .catch(err => console.log('error getting book details :', err))
-    }, [])
+
+        bookService.getNextBookId(bookId)
+            .then(id => nextBookId.current = id)
+            .catch(err => console.log('error getting the next book ID: ', err))
+
+    }, [bookId])
 
     if (!book) return <section>Loading...</section>
 
@@ -31,9 +41,7 @@ export function BookDetails({ bookId, onBack }) {
             break
     }
 
-    function onCloseDetails() {
-        onBack()
-    }
+
 
     return (
         <section className="book-details">
@@ -42,7 +50,8 @@ export function BookDetails({ bookId, onBack }) {
             <p className="book-description">{description}</p>
             <div className="book-price">{currencySign + amount}</div>
             {/* {isOnSale && <OnSaleSign />} */}
-            <button onClick={onCloseDetails}>X</button>
+            <button><Link to="/book">Back</Link></button>
+            <button><Link to={`/book/${nextBookId.current}`}>Next</Link></button>
         </section>
     )
 }

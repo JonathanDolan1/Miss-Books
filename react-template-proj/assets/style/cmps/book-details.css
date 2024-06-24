@@ -1,0 +1,26 @@
+.book-details .book-price.red{
+    color:red;
+}
+
+.book-details .book-price.green{
+    color:green;
+}
+
+.book-details .book-thumbnail-container {
+    position: relative;
+    margin-block: 2em;
+}
+
+.book-details .on-sale {
+    background-color: white;
+    position: absolute;
+    top: 27px;
+    left: -39px;
+    /* border: 2px solid black; */
+    color: green;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 0.5rem;
+    width: 170px;
+    transform: rotate(-45deg);
+  }

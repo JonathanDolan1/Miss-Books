@@ -1,0 +1,10 @@
+.book-filter{
+    background-color:aquamarine;
+    padding: 0.5em;
+}
+
+.book-filter form{
+    display: grid;
+    grid-template-columns: 100px 200px;
+    gap:0.5em;
+}

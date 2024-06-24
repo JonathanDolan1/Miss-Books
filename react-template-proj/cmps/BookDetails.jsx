@@ -1,4 +1,5 @@
 import { bookService } from "../services/book.service.js"
+import { LongTxt } from "./LongTxt.jsx"
 
 const { useEffect, useState, useRef } = React
 
@@ -57,25 +58,25 @@ export function BookDetails() {
             break
     }
 
-    function getDifficulty(){
+    function getDifficulty() {
         let difficulty = null
-        if (pageCount>500) difficulty = ' - Serious Reading'
-        else if (pageCount>200) difficulty = ' - Descent Reading'
-        else if (pageCount<100) difficulty = ' -  Light Reading'
+        if (pageCount > 500) difficulty = ' - Serious Reading'
+        else if (pageCount > 200) difficulty = ' - Descent Reading'
+        else if (pageCount < 100) difficulty = ' -  Light Reading'
         return difficulty
     }
 
-    function getDateStatus(){
+    function getDateStatus() {
         let dateStatus = null
-        if (publishedDate>10) dateStatus = ' - Vintage'
-        else if (publishedDate<1) dateStatus = ' - New'
+        if (publishedDate > 10) dateStatus = ' - Vintage'
+        else if (publishedDate < 1) dateStatus = ' - New'
         return dateStatus
     }
 
-    function getPriceStatusClass(){
+    function getPriceStatusClass() {
         let priceStatusClass = ''
-        if (amount<20) priceStatusClass = 'green'
-        if (amount>150) priceStatusClass = 'red'
+        if (amount < 20) priceStatusClass = 'green'
+        if (amount > 150) priceStatusClass = 'red'
         return priceStatusClass
     }
 
@@ -84,21 +85,22 @@ export function BookDetails() {
             <h3 className="book-title">Title: {title}</h3>
             <h4 className="book-subtitle">Subtitle: {subtitle} </h4>
             <div className="book-authors">Authors: {authors.join(', ').trimEnd()}</div>
-            <div className="book-published-date">Published Date: {publishedDate+getDateStatus()}</div>
-            <div className="book-page-count">Page Count: {pageCount+getDifficulty()}</div>
+            <div className="book-published-date">Published Date: {publishedDate + getDateStatus()}</div>
+            <div className="book-page-count">Page Count: {pageCount + getDifficulty()}</div>
             <div className="book-categories">Categories: {categories.join(', ').trimEnd()}</div>
             <div className="book-lanuage">Language: {fullLangName}</div>
             <div className="book-thumbnail-container">
                 {book.listPrice.isOnSale && (
                     <div className="on-sale">On-sale!</div>
                 )}
-                <img className ="book-thumbnail" src={book.thumbnail} alt={`Cover of ${title}`}/>
+                <img className="book-thumbnail" src={book.thumbnail} alt={`Cover of ${title}`} />
             </div>
-            <p className="book-description">{description}</p>
+            <div className="book-description"><LongTxt txt={description} /></div>
             <div className={`book-price ${getPriceStatusClass()}`}>{currencySign + amount}</div>
-            {/* {isOnSale && <OnSaleSign />} */}
-            <button><Link to="/book">Back</Link></button>
-            <button><Link to={`/book/${nextBookId.current}`}>Next</Link></button>
+            <div className="buttons-container">
+                <button><Link to="/book">Back</Link></button>
+                <button><Link to={`/book/${nextBookId.current}`}>Next</Link></button>
+            </div>
         </section>
     )
 }

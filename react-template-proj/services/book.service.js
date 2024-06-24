@@ -18,8 +18,8 @@ export const bookService = {
 }
 
 function query(filterBy) {
-    
-    gFilterBy = {...filterBy}
+
+    gFilterBy = { ...filterBy }
     return storageService.query(BOOK_KEY)
         .then(books => {
             if (gFilterBy.title) {
@@ -52,21 +52,23 @@ function save(book) {
     }
 }
 
-function getEmptyBook(
-    title = '',
-    description = '',
-    thumbnail = '',
-    listPrice = {
-        amount: 0,
-        currencyCode: '',
-        isOnSale: false
-    }) {
+function getEmptyBook() {
     return {
         id: '',
-        title,
-        description,
-        thumbnail,
-        listPrice
+        title: '',
+        subtitle: '',
+        authors: [],
+        publishedDate: null,
+        description: '',
+        pageCount: null,
+        categories: [],
+        thumbnail: '',
+        language: '',
+        listPrice: {
+            amount: 0,
+            currencyCode: '',
+            isOnSale: false
+        }
     }
 }
 
@@ -104,7 +106,7 @@ function _createBook(
     thumbnail,
     listPrice) {
 
-    const book = getEmptyBook(title, description, thumbnail, listPrice)
+    const book = {...getEmptyBook(),title,description,thumbnail,listPrice}
     book.id = utilService.makeId()
     return book
 

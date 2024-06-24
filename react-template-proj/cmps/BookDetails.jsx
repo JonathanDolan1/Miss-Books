@@ -24,7 +24,7 @@ export function BookDetails() {
 
     if (!book) return <section>Loading...</section>
 
-    const { title, thumbnail, description, listPrice } = book
+    const { title, subtitle, authors, publishedDate, pageCount, categories, thumbnail, language, description, listPrice } = book
 
     const { amount, currencyCode, isOnSale } = listPrice
 
@@ -41,11 +41,31 @@ export function BookDetails() {
             break
     }
 
-
+    let fullLangName
+    switch (language) {
+        case 'en':
+            fullLangName = 'English'
+            break
+        case 'sp':
+            fullLangName = 'Spanish'
+            break
+        case 'he':
+            fullLangName = 'Hebrew'
+            break
+        default:
+            fullLangName = 'Unrecognized Language'
+            break
+    }
 
     return (
         <section className="book-details">
-            <h3 className="book-title">{title}</h3>
+            <h3 className="book-title">Title: {title}</h3>
+            <h4 className="book-subtitle">Subtitle: {subtitle} </h4>
+            <div className="book-authors">Authors: {authors.join(', ').trimEnd()}</div>
+            <div className="book-published-date">Published Date: {publishedDate}</div>
+            <div className="book-page-count">Page Count: {pageCount}</div>
+            <div className="book-categories">Categories: {categories.join(', ').trimEnd()}</div>
+            <div className="book-lanuage">Language: {fullLangName}</div>
             <img className="book-img" src={thumbnail} alt={`Cover of ${title}`} />
             <p className="book-description">{description}</p>
             <div className="book-price">{currencySign + amount}</div>

@@ -2,7 +2,7 @@ const { Link } = ReactRouterDOM
 
 import { BookPreview } from "./BookPreview.jsx";
 
-export function BookList({ books, onSelectBook, onRemoveBook }) {
+export function BookList({ books, onRemoveBook }) {
 
     return (
         <ul className="book-list clean-list">

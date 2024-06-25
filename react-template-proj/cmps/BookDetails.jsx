@@ -90,10 +90,10 @@ export function BookDetails() {
             <div className="book-categories">Categories: {categories.join(', ').trimEnd()}</div>
             <div className="book-lanuage">Language: {fullLangName}</div>
             <div className="book-thumbnail-container">
-                {book.listPrice.isOnSale && (
+                {isOnSale && (
                     <div className="on-sale">On-sale!</div>
                 )}
-                <img className="book-thumbnail" src={book.thumbnail} alt={`Cover of ${title}`} />
+                <img className="book-thumbnail" src={thumbnail} alt={`Cover of ${title}`} />
             </div>
             <div className="book-description"><LongTxt txt={description} /></div>
             <div className={`book-price ${getPriceStatusClass()}`}>{currencySign + amount}</div>

@@ -1,14 +1,14 @@
-const { useState} = React
+const { useState } = React
 
-export function LongTxt({txt , length=100}){
+export function LongTxt({ txt, length = 100 }) {
 
     const [isLong, setIsLong] = useState(false)
-    
-    function onToggleTxt(){
-        setIsLong((prevIsLong)=>!prevIsLong)
+
+    function onToggleTxt() {
+        setIsLong((prevIsLong) => !prevIsLong)
     }
 
-    const modTxt = isLong ? txt : txt.slice(0,length) + '...'
+    const modTxt = isLong ? txt : txt.slice(0, length) + '...'
     const readStr = isLong ? 'Less' : 'More'
 
     return (

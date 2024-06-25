@@ -1,4 +1,5 @@
 import { bookService } from "../services/book.service.js"
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
 
 const { useParams, Link, useNavigate } = ReactRouterDOM
 const { useState, useEffect, useRef } = React
@@ -21,7 +22,7 @@ export function BookEdit() {
     function loadBook() {
         bookService.get(bookId)
         .then(book => setBookToEdit(book))
-        .catch(err => console.log('error getting book details :', err))
+        .catch(err => showErrorMsg('Error getting the books details: ' + err))
     }
     
     if (!bookToEdit) return <section>Loading...</section>
@@ -32,9 +33,9 @@ export function BookEdit() {
         bookService.save(bookToEdit)
         .then(() => {
             navigate('/book')
-            // showSuccessMsg(`Book saved successfully!`)
+            showSuccessMsg(`The book has been ${bookId ? 'edited' : 'added'} successfully!`)
         })
-        .catch(err => console.log('err:', err))
+        .catch(err => showErrorMsg('Error saving the book: ' + err))
     }
     
     const { title, subtitle, authors, publishedDate, pageCount, categories, thumbnail, language, description, listPrice } = bookToEdit
@@ -90,11 +91,10 @@ export function BookEdit() {
             }
             reader.readAsDataURL(file)
         }
-        
-        console.log(isOnSale);
 
     return (
         <section className="book-edit">
+            <h2>{bookId ? 'Edit' : 'Add'} Book</h2>
             <form className="book-edit-form" onSubmit={onSaveBook}>
                 <label htmlFor="title">Title:</label>
                 <input onChange={handleChange} className="book-title" value={title} type="text" name="title" id="title"></input>

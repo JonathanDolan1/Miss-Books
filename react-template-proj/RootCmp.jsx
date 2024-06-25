@@ -7,6 +7,7 @@ import { AboutUs } from './pages/AboutUs.jsx'
 import { BookIndex } from './pages/BookIndex.jsx'
 import { BookDetails } from './cmps/BookDetails.jsx'
 import { BookEdit } from './cmps/BookEdit.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
 
 export function App() {
 
@@ -15,7 +16,7 @@ export function App() {
             <section className="app">
                 <AppHeader />
                 <main className="container">
-                <Routes>
+                    <Routes>
                         <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/about" element={<AboutUs />} >
@@ -31,6 +32,7 @@ export function App() {
                     </Routes>
                 </main>
             </section>
+            <UserMsg />
         </Router>
     )
 }

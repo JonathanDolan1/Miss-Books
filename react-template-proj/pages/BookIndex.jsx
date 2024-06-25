@@ -4,6 +4,7 @@ import { bookService } from "../services/book.service.js"
 import { BookList } from "../cmps/BookList.jsx"
 import { BookDetails } from "../cmps/BookDetails.jsx"
 import { BookFilter } from "../cmps/BookFilter.jsx"
+import { showSuccessMsg , showErrorMsg } from "../services/event-bus.service.js"
 
 const { useState, useEffect } = React
 
@@ -22,7 +23,7 @@ export function BookIndex() {
             .then(books => {
                 setBooks(books)
             })
-            .catch(err => console.log('error fetching books : ', err))
+            .catch(err => showErrorMsg(`Issues with getting books from service: ` + err))
     }
 
     function onSelectBook(id) {
@@ -31,8 +32,11 @@ export function BookIndex() {
 
     function onRemoveBook(id) {
         bookService.remove(id)
-            .then(setBooks(prevBooks => prevBooks.filter(book => book.id !== id)))
-            .catch(err => console.log('issue with removing the book : ', err))
+            .then(()=>{
+                setBooks(prevBooks => prevBooks.filter(book => book.id !== id))
+                showSuccessMsg(`Book ${id} removed succesfuly`)
+            })
+            .catch(err => showErrorMsg(`Issues with removing book ${id}: ` + err))
     }
 
     function onSetFilter(filterBy) {

@@ -1,12 +1,12 @@
 import { bookService } from "../services/book.service.js"
 
-const { useParams, Link , useNavigate } = ReactRouterDOM
+const { useParams, Link, useNavigate } = ReactRouterDOM
 const { useState, useEffect } = React
 
 export function BookEdit() {
 
-    const [bookToEdit, setBookToEdit] = useState(null)
-    const navigate = useNavigate() 
+    const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
+    const navigate = useNavigate()
     const { bookId } = useParams()
 
 
@@ -22,15 +22,15 @@ export function BookEdit() {
 
     if (!bookToEdit) return <section>Loading...</section>
 
-    
+
     function onSaveBook(ev) {
         ev.preventDefault()
         bookService.save(bookToEdit)
-        .then(() => {
-            navigate('/book')
-            // showSuccessMsg(`Book saved successfully!`)
-        })
-        .catch(err => console.log('err:', err))
+            .then(() => {
+                navigate('/book')
+                // showSuccessMsg(`Book saved successfully!`)
+            })
+            .catch(err => console.log('err:', err))
     }
 
     const { title, subtitle, authors, publishedDate, pageCount, categories, thumbnail, language, description, listPrice } = bookToEdit
@@ -54,6 +54,18 @@ export function BookEdit() {
                 break;
         }
 
+        switch (field) {
+            case 'authors':
+            case 'categories':
+                value = value.split(',')
+                break;
+
+            case 'amount':
+            case 'currencyCode':
+            case 'isOnSale':
+                setBookToEdit(prevBook => ({ ...prevBook, listPrice: { ...(prevBook.listPrice), [field]: value } }))
+        }
+
         setBookToEdit(prevBook => ({ ...prevBook, [field]: value }))
     }
 
@@ -67,10 +79,10 @@ export function BookEdit() {
                 <input onChange={handleChange} className="book-subtitle" value={subtitle} type="text" name="subtitle" id="subtitle"></input>
                 <label htmlFor="authors">Authors(seprated by ','):</label>
                 <input onChange={handleChange} className="book-authors" value={authors.join(',')} type="text" name="authors" id="authors"></input>
-                <label htmlFor="published-date">Published Date:</label>
-                <input onChange={handleChange} className="book-published-date" value={publishedDate} type="number" name="published-date" id="published-date"></input>
-                <label htmlFor="page-count">Page Count:</label>
-                <input onChange={handleChange} className="book-page-count" value={pageCount} type="number" name="page-count" id="page-count"></input>
+                <label htmlFor="publishedDate">Published Date:</label>
+                <input onChange={handleChange} className="book-published-date" value={publishedDate} type="number" name="publishedDate" id="publishedDate"></input>
+                <label htmlFor="pageCount">Page Count:</label>
+                <input onChange={handleChange} className="book-page-count" value={pageCount} type="number" name="pageCount" id="pageCount"></input>
                 <label htmlFor="categories">Categories(seprated by ','):</label>
                 <input onChange={handleChange} className="book-categories" value={categories.join(',')} type="text" name="categories" id="categories"></input>
 
@@ -80,10 +92,10 @@ export function BookEdit() {
                     <option value="sp">Spanish</option>
                     <option value="he">Hebrew</option>
                 </select>
-                
 
-                <label htmlFor="on-sale">On Sale:</label>
-                <select onChange={handleChange} className="book-on-sale" value={isOnSale} name="on-sale" id="on-sale">
+
+                <label htmlFor="isOnSale">On Sale:</label>
+                <select onChange={handleChange} className="book-on-sale" value={isOnSale} name="isOnSale" id="isOnSale">
                     <option value={true}>Yes</option>
                     <option value={false}>No</option>
                 </select>
@@ -93,11 +105,11 @@ export function BookEdit() {
                 <input onChange={handleChange} className="book-description" value={description} type="text" name="description" id="description"></input>
 
 
-                <label htmlFor="price">Price:</label>
-                <input onChange={handleChange} className="book-price" value={amount} type="number" name="price" id="price"></input>
-                
-                <label htmlFor="currency-code">Currency Code:</label>
-                <select onChange={handleChange} className="book-currecny-code" value={currencyCode} name="currency-code" id="currency-code">
+                <label htmlFor="amount">Price:</label>
+                <input onChange={handleChange} className="book-price" value={amount} type="number" name="amount" id="amount"></input>
+
+                <label htmlFor="currencyCode">Currency Code:</label>
+                <select onChange={handleChange} className="book-currecny-code" value={currencyCode} name="currencyCode" id="currencyCode">
                     <option value="EUR">€ - EUR</option>
                     <option value="ILS">₪ - ILS</option>
                     <option value="USD">$ - USD</option>
@@ -108,13 +120,13 @@ export function BookEdit() {
                     {isOnSale && (
                         <div className="on-sale">On-sale!</div>
                     )}
-                    <img className="book-thumbnail" src={thumbnail} alt={`Cover of ${title}`} />
+                    <img className="book-thumbnail" src={thumbnail} alt={`Cover of ${title || 'book'}`} />
                 </div>
-                
-            <div className="buttons-container">
-                <button><Link to="/book">Back</Link></button>
-                <button onClick={onSaveBook}>Save</button>
-            </div>
+
+                <div className="buttons-container">
+                    <button><Link to="/book">Back</Link></button>
+                    <button onClick={onSaveBook}>Save</button>
+                </div>
             </form>
 
 

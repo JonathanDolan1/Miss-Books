@@ -3,3 +3,22 @@
     grid-template-columns: 1fr 1fr;
     gap: 1em;
 }
+
+.book-edit .book-thumbnail-container{
+    position: relative;
+    margin-block-start: 10px;
+}
+
+.book-edit .on-sale {
+    background-color: white;
+    position: absolute;
+    top: 27px;
+    left: -39px;
+    /* border: 2px solid black; */
+    color: green;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 0.5rem;
+    width: 170px;
+    transform: rotate(-45deg);
+  }

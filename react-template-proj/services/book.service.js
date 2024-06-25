@@ -58,17 +58,18 @@ function getEmptyBook() {
         title: '',
         subtitle: '',
         authors: [],
-        publishedDate: null,
+        publishedDate: '',
         description: '',
-        pageCount: null,
+        pageCount: '',
         categories: [],
         thumbnail: '',
         language: '',
         listPrice: {
-            amount: 0,
+            amount: '',
             currencyCode: '',
             isOnSale: false
-        }
+        },
+        reviews: []
     }
 }
 
@@ -102,11 +103,31 @@ function _createBooks() {
 
 function _createBook(
     title,
+    subtitle,
+    authors,
+    publishedDate,
+    pageCount,
+    categories,
+    language,
     description,
     thumbnail,
-    listPrice) {
+    listPrice,
+    reviews) {
 
-    const book = {...getEmptyBook(),title,description,thumbnail,listPrice}
+    const book = {
+        ...getEmptyBook(),
+        title,
+        subtitle,
+        authors,
+        publishedDate,
+        pageCount,
+        categories,
+        language,
+        description,
+        thumbnail,
+        listPrice,
+        reviews
+    }
     book.id = utilService.makeId()
     return book
 

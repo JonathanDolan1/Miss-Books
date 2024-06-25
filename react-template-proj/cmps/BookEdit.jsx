@@ -1,11 +1,15 @@
 import { bookService } from "../services/book.service.js"
 
 const { useParams, Link, useNavigate } = ReactRouterDOM
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 
 export function BookEdit() {
 
     const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
+    // const [imgUrl, setImgUrl] = useState('')
+
+
+
     const navigate = useNavigate()
     const { bookId } = useParams()
 
@@ -13,28 +17,29 @@ export function BookEdit() {
     useEffect(() => {
         if (bookId) loadBook()
     }, [])
-
+    
     function loadBook() {
         bookService.get(bookId)
-            .then(book => setBookToEdit(book))
-            .catch(err => console.log('error getting book details :', err))
+        .then(book => setBookToEdit(book))
+        .catch(err => console.log('error getting book details :', err))
     }
-
+    
     if (!bookToEdit) return <section>Loading...</section>
-
-
+    
+    
     function onSaveBook(ev) {
         ev.preventDefault()
         bookService.save(bookToEdit)
-            .then(() => {
-                navigate('/book')
-                // showSuccessMsg(`Book saved successfully!`)
-            })
-            .catch(err => console.log('err:', err))
+        .then(() => {
+            navigate('/book')
+            // showSuccessMsg(`Book saved successfully!`)
+        })
+        .catch(err => console.log('err:', err))
     }
-
+    
     const { title, subtitle, authors, publishedDate, pageCount, categories, thumbnail, language, description, listPrice } = bookToEdit
     const { amount, currencyCode, isOnSale } = listPrice
+
 
     function handleChange({ target }) {
         const field = target.name
@@ -62,13 +67,31 @@ export function BookEdit() {
 
             case 'amount':
             case 'currencyCode':
-            case 'isOnSale':
                 setBookToEdit(prevBook => ({ ...prevBook, listPrice: { ...(prevBook.listPrice), [field]: value } }))
+                return
+            case 'isOnSale':
+                value = (value==='true') ?  true : false
+                setBookToEdit(prevBook => ({ ...prevBook, listPrice: { ...(prevBook.listPrice), [field]: value } }))
+                return
+            }
+            
+            setBookToEdit(prevBook => ({ ...prevBook, [field]: value }))
         }
 
-        setBookToEdit(prevBook => ({ ...prevBook, [field]: value }))
-    }
-
+        
+        function handleImgChange({ target }) {
+            const field = target.name
+            const file = target.files[0]
+            
+            
+            const reader = new FileReader()
+            reader.onload = () => {
+                setBookToEdit((prevBook)=>({ ...prevBook, [field]: reader.result }))
+            }
+            reader.readAsDataURL(file)
+        }
+        
+        console.log(isOnSale);
 
     return (
         <section className="book-edit">
@@ -115,7 +138,9 @@ export function BookEdit() {
                     <option value="USD">$ - USD</option>
                 </select>
 
-                <button className="book-thumbnail-upload-button">Upload Image</button>
+                <label htmlFor="currencyCode">Thumbnail:</label>
+                <input accept="image/*" onChange={handleImgChange} className="book-thumbnail" type="file" name="thumbnail" id="thumbnail"></input>
+                <div></div>
                 <div className="book-thumbnail-container">
                     {isOnSale && (
                         <div className="on-sale">On-sale!</div>
